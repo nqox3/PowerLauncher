@@ -1,0 +1,139 @@
+<Page x:Class="MinecraftLauncher.Views.SettingsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+      Title="Settings">
+
+    <ScrollViewer Margin="24">
+        <StackPanel>
+            <!-- Header -->
+            <TextBlock Text="⚙️ Settings" 
+                       FontSize="28" FontWeight="Bold" Margin="0,0,0,8"
+                       Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
+            <TextBlock Text="Configure your launcher and game settings" 
+                       FontSize="14" Opacity="0.7" Margin="0,0,0,24"
+                       Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
+
+            <!-- Memory Settings -->
+            <ui:CardControl Margin="0,0,0,12">
+                <ui:CardControl.Header>
+                    <StackPanel>
+                        <TextBlock Text="Memory (RAM)" FontWeight="SemiBold" FontSize="16"/>
+                        <TextBlock Text="Allocate memory for Minecraft" Opacity="0.6" FontSize="12"/>
+                    </StackPanel>
+                </ui:CardControl.Header>
+                <StackPanel>
+                    <Grid Margin="0,0,0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" Margin="0,0,8,0">
+                            <TextBlock Text="Minimum RAM (MB)" Margin="0,0,0,4"/>
+                            <ui:NumberBox Value="{Binding Settings.MinRamMb}" 
+                                          Minimum="256" Maximum="16384" SmallChange="256"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Margin="8,0,0,0">
+                            <TextBlock Text="Maximum RAM (MB)" Margin="0,0,0,4"/>
+                            <ui:NumberBox Value="{Binding Settings.MaxRamMb}" 
+                                          Minimum="512" Maximum="32768" SmallChange="512"/>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </ui:CardControl>
+
+            <!-- Java Settings -->
+            <ui:CardControl Margin="0,0,0,12">
+                <ui:CardControl.Header>
+                    <StackPanel>
+                        <TextBlock Text="Java" FontWeight="SemiBold" FontSize="16"/>
+                        <TextBlock Text="Java runtime configuration" Opacity="0.6" FontSize="12"/>
+                    </StackPanel>
+                </ui:CardControl.Header>
+                <StackPanel>
+                    <TextBlock Text="Java Path (leave empty for auto-detect)" Margin="0,0,0,4"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <ui:TextBox Text="{Binding Settings.JavaPath}" 
+                                    PlaceholderText="Auto-detect"/>
+                        <ui:Button Grid.Column="1" Content="Browse" 
+                                   Click="BrowseJava_Click" Margin="8,0,0,0"/>
+                    </Grid>
+                    <TextBlock Text="Custom JVM Arguments" Margin="0,12,0,4"/>
+                    <ui:TextBox Text="{Binding Settings.CustomJvmArgs}" 
+                                PlaceholderText="-XX:+UseG1GC -XX:+ParallelRefProcEnabled"/>
+                </StackPanel>
+            </ui:CardControl>
+
+            <!-- Window Settings -->
+            <ui:CardControl Margin="0,0,0,12">
+                <ui:CardControl.Header>
+                    <StackPanel>
+                        <TextBlock Text="Window" FontWeight="SemiBold" FontSize="16"/>
+                        <TextBlock Text="Game window configuration" Opacity="0.6" FontSize="12"/>
+                    </StackPanel>
+                </ui:CardControl.Header>
+                <StackPanel>
+                    <CheckBox Content="Fullscreen" IsChecked="{Binding Settings.FullScreen}" Margin="0,0,0,8"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" Margin="0,0,8,0">
+                            <TextBlock Text="Width" Margin="0,0,0,4"/>
+                            <ui:NumberBox Value="{Binding Settings.WindowWidth}" 
+                                          Minimum="640" Maximum="3840"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Margin="8,0,0,0">
+                            <TextBlock Text="Height" Margin="0,0,0,4"/>
+                            <ui:NumberBox Value="{Binding Settings.WindowHeight}" 
+                                          Minimum="480" Maximum="2160"/>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </ui:CardControl>
+
+            <!-- Game Directory -->
+            <ui:CardControl Margin="0,0,0,12">
+                <ui:CardControl.Header>
+                    <StackPanel>
+                        <TextBlock Text="Game Directory" FontWeight="SemiBold" FontSize="16"/>
+                        <TextBlock Text="Where Minecraft files are stored" Opacity="0.6" FontSize="12"/>
+                    </StackPanel>
+                </ui:CardControl.Header>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <ui:TextBox Text="{Binding Settings.GameDirectory}" IsReadOnly="True"/>
+                    <ui:Button Grid.Column="1" Content="Browse" 
+                               Click="BrowseGameDir_Click" Margin="8,0,0,0"/>
+                </Grid>
+            </ui:CardControl>
+
+            <!-- Options -->
+            <ui:CardControl Margin="0,0,0,12">
+                <ui:CardControl.Header>
+                    <TextBlock Text="Options" FontWeight="SemiBold" FontSize="16"/>
+                </ui:CardControl.Header>
+                <StackPanel>
+                    <CheckBox Content="Show Snapshots" IsChecked="{Binding Settings.ShowSnapshots}" Margin="0,4"/>
+                    <CheckBox Content="Auto-close launcher on game start" IsChecked="{Binding Settings.AutoCloseOnLaunch}" Margin="0,4"/>
+                </StackPanel>
+            </ui:CardControl>
+
+            <!-- Save Button -->
+            <ui:Button Content="💾 Save Settings" 
+                       Command="{Binding SaveSettingsCommand}"
+                       Appearance="Primary"
+                       HorizontalAlignment="Right"
+                       Padding="24,12"
+                       FontSize="14"/>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

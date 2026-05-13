@@ -1,0 +1,55 @@
+<Page x:Class="MinecraftLauncher.Views.SkinsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+      Title="Skins">
+
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Margin="0,0,0,16">
+            <TextBlock Text="🎨 Player Skins" 
+                       FontSize="28" FontWeight="Bold"
+                       Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
+            <TextBlock Text="View player avatars from mc-heads.net" 
+                       FontSize="14" Opacity="0.7"
+                       Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
+        </StackPanel>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0">
+                <Grid Margin="0,0,0,16">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <ui:TextBox x:Name="SkinUsername" PlaceholderText="Enter username to preview..."
+                                Margin="0,0,8,0"/>
+                    <ui:Button Grid.Column="1" Content="Load Skin" 
+                               Appearance="Primary" Click="LoadSkin_Click"/>
+                </Grid>
+
+                <ui:CardControl>
+                    <ui:CardControl.Header>
+                        <TextBlock Text="Player Avatar" FontWeight="SemiBold"/>
+                    </ui:CardControl.Header>
+                    <StackPanel HorizontalAlignment="Center" Margin="16">
+                        <Image x:Name="PlayerHead" Width="128" Height="128" 
+                               RenderOptions.BitmapScalingMode="NearestNeighbor"/>
+                        <TextBlock x:Name="SkinStatusText" Text="Enter a username above" 
+                                   HorizontalAlignment="Center" Margin="0,12,0,0"
+                                   Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
+                    </StackPanel>
+                </ui:CardControl>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Page>

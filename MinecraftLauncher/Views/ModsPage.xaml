@@ -1,0 +1,86 @@
+<Page x:Class="MinecraftLauncher.Views.ModsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+      Title="Mods">
+
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <StackPanel Grid.Row="0" Margin="0,0,0,16">
+            <TextBlock Text="🧩 Mod Manager" 
+                       FontSize="28" FontWeight="Bold"
+                       Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
+            <TextBlock Text="Manage your installed mods" 
+                       FontSize="14" Opacity="0.7"
+                       Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
+        </StackPanel>
+
+        <!-- Toolbar -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,12">
+            <ui:Button Content="Open Mods Folder" 
+                       Icon="{ui:SymbolIcon Folder24}"
+                       Command="{Binding OpenModsFolderCommand}"
+                       Margin="0,0,8,0"/>
+            <ui:Button Content="Refresh" 
+                       Icon="{ui:SymbolIcon ArrowSync24}"
+                       Command="{Binding RefreshModsCommand}"
+                       Margin="0,0,8,0"/>
+            <ui:Button Content="Add Mod (.jar)" 
+                       Icon="{ui:SymbolIcon Add24}"
+                       Appearance="Primary"
+                       Click="AddMod_Click"/>
+        </StackPanel>
+
+        <!-- Mods List -->
+        <ui:ListView Grid.Row="2" 
+                     ItemsSource="{Binding Mods}"
+                     SelectionMode="Single">
+            <ui:ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Margin="8,6">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Enable/Disable Toggle -->
+                        <CheckBox Grid.Column="0" 
+                                  IsChecked="{Binding IsEnabled}" 
+                                  Margin="0,0,12,0"
+                                  VerticalAlignment="Center"/>
+
+                        <!-- Mod Info -->
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                            <TextBlock Text="{Binding Name}" FontWeight="SemiBold" FontSize="14"/>
+                            <TextBlock Text="{Binding FileName}" Opacity="0.6" FontSize="11"/>
+                        </StackPanel>
+
+                        <!-- Toggle Button -->
+                        <ui:Button Grid.Column="2" 
+                                   Content="Toggle"
+                                   Command="{Binding DataContext.ToggleModCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                                   CommandParameter="{Binding}"
+                                   Appearance="Secondary"
+                                   Margin="4,0"/>
+
+                        <!-- Delete Button -->
+                        <ui:Button Grid.Column="3" 
+                                   Content="Delete"
+                                   Command="{Binding DataContext.DeleteModCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                                   CommandParameter="{Binding}"
+                                   Appearance="Danger"
+                                   Margin="4,0"/>
+                    </Grid>
+                </DataTemplate>
+            </ui:ListView.ItemTemplate>
+        </ui:ListView>
+    </Grid>
+</Page>
