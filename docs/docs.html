@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation - PowerLauncher</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/docs.css">
+</head>
+<body>
+    <div class="topbar">
+        <div class="topbar-inner">
+            <span class="topbar-logo">PowerLauncher</span>
+            <div class="topbar-links">
+                <a href="index.html">Home</a>
+                <a href="features.html">Features</a>
+                <a href="docs.html" class="active">Documentation</a>
+                <a href="download.html">Download</a>
+                <a href="https://github.com/nqox3/PowerLauncher" target="_blank">GitHub</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-wrap top-pad">
+        <div class="docs-layout">
+            <!-- Sidebar -->
+            <div class="docs-sidebar">
+                <div class="sidebar-section">
+                    <div class="sidebar-title">Getting Started</div>
+                    <a href="#installation">Installation</a>
+                    <a href="#first-launch">First Launch</a>
+                    <a href="#accounts">Accounts</a>
+                </div>
+                <div class="sidebar-section">
+                    <div class="sidebar-title">Mods</div>
+                    <a href="#mod-market">Mod Market</a>
+                    <a href="#mod-management">Mod Management</a>
+                </div>
+                <div class="sidebar-section">
+                    <div class="sidebar-title">Configuration</div>
+                    <a href="#settings">Settings</a>
+                    <a href="#java">Java Runtime</a>
+                    <a href="#files">File Structure</a>
+                </div>
+                <div class="sidebar-section">
+                    <div class="sidebar-title">Troubleshooting</div>
+                    <a href="#faq">FAQ</a>
+                </div>
+            </div>
+
+            <!-- Content -->
+            <div class="docs-content">
+                <div class="doc-block" id="installation">
+                    <h3>Installation</h3>
+                    <ol>
+                        <li>Download the installer <code>PowerLauncher-Setup-1.0.0.exe</code> from the <a href="download.html">Download</a> page</li>
+                        <li>Run the installer and follow the on-screen instructions</li>
+                        <li>On first launch, the launcher will create directories and check for Java</li>
+                        <li>If Java is not found, it will be downloaded automatically (Java 21, Adoptium)</li>
+                    </ol>
+                </div>
+
+                <div class="doc-block" id="first-launch">
+                    <h3>First Launch</h3>
+                    <ol>
+                        <li>Enter a player name in the Username field and click the + button to create an account</li>
+                        <li>Click "Refresh Versions" to load the version list from Mojang servers</li>
+                        <li>Select a version from the dropdown (only releases shown by default)</li>
+                        <li>Click LAUNCH MINECRAFT</li>
+                        <li>The launcher will download the required files and start the game</li>
+                        <li>The launcher window hides while the game is running</li>
+                        <li>When the game closes, the launcher reappears automatically</li>
+                    </ol>
+                </div>
+
+                <div class="doc-block" id="accounts">
+                    <h3>Accounts</h3>
+                    <p>PowerLauncher supports offline (cracked) accounts. Each account has a username and a generated UUID.</p>
+                    <ul>
+                        <li>Click + to add a new account with the entered username</li>
+                        <li>Click - to remove the currently selected account</li>
+                        <li>Select an account from the dropdown to switch between them</li>
+                        <li>Accounts are saved in <code>%AppData%/PowerLauncher/accounts.json</code></li>
+                    </ul>
+                </div>
+
+                <div class="doc-block" id="mod-market">
+                    <h3>Mod Market</h3>
+                    <p>The Mod Market tab lets you search and install mods from Modrinth directly.</p>
+                    <ol>
+                        <li>Navigate to the "Mod Market" tab</li>
+                        <li>Enter a mod name in the search box and press Enter or click Search</li>
+                        <li>Use the loader filter to show only Fabric, Forge, Quilt, or NeoForge mods</li>
+                        <li>Sort results by relevance, downloads, updated, or newest</li>
+                        <li>Click "Install" next to any mod to download it</li>
+                        <li>The mod jar file is saved to the game's mods/ folder</li>
+                    </ol>
+                    <p class="note-text">Note: You need a mod loader (Fabric, Forge, etc.) installed as a game version to use mods. Vanilla Minecraft does not load mods.</p>
+                </div>
+
+                <div class="doc-block" id="mod-management">
+                    <h3>Mod Management</h3>
+                    <p>The "My Mods" tab shows all installed mods in the mods/ folder.</p>
+                    <table class="doc-table">
+                        <tr><th>Action</th><th>Description</th></tr>
+                        <tr><td>Toggle</td><td>Enable or disable a mod by renaming it to .jar.disabled</td></tr>
+                        <tr><td>Delete</td><td>Permanently remove the mod file</td></tr>
+                        <tr><td>Add Mod (.jar)</td><td>Open a file dialog to add a mod from your computer</td></tr>
+                        <tr><td>Open Mods Folder</td><td>Open the mods directory in Windows Explorer</td></tr>
+                        <tr><td>Refresh</td><td>Reload the mod list from disk</td></tr>
+                    </table>
+                </div>
+
+                <div class="doc-block" id="settings">
+                    <h3>Settings</h3>
+                    <table class="doc-table">
+                        <tr><th>Setting</th><th>Description</th><th>Default</th></tr>
+                        <tr><td>Minimum RAM</td><td>Minimum memory allocated to the game</td><td>512 MB</td></tr>
+                        <tr><td>Maximum RAM</td><td>Maximum memory allocated to the game</td><td>4096 MB</td></tr>
+                        <tr><td>Java Path</td><td>Path to javaw.exe (empty = auto-detect)</td><td>Auto</td></tr>
+                        <tr><td>Custom JVM Args</td><td>Additional JVM arguments passed to the game</td><td>Empty</td></tr>
+                        <tr><td>Window Width</td><td>Game window width in pixels</td><td>854</td></tr>
+                        <tr><td>Window Height</td><td>Game window height in pixels</td><td>480</td></tr>
+                        <tr><td>Fullscreen</td><td>Launch in fullscreen mode</td><td>Off</td></tr>
+                        <tr><td>Show Snapshots</td><td>Include snapshot versions in the list</td><td>Off</td></tr>
+                        <tr><td>Auto-close</td><td>Hide launcher when game starts</td><td>On (always)</td></tr>
+                    </table>
+                </div>
+
+                <div class="doc-block" id="java">
+                    <h3>Java Runtime</h3>
+                    <p>PowerLauncher manages Java automatically. On first launch or when Java is missing, it downloads Java 21 from Adoptium (Eclipse Temurin).</p>
+                    <ul>
+                        <li>Java is installed to <code>%AppData%/PowerLauncher/runtime/java-21/</code></li>
+                        <li>The Java tab shows current status, version, and path</li>
+                        <li>Click "Install/Reinstall Java 21" to force a fresh download</li>
+                        <li>You can also set a custom Java path in Settings</li>
+                    </ul>
+                </div>
+
+                <div class="doc-block" id="files">
+                    <h3>File Structure</h3>
+                    <pre class="code-block">%AppData%/PowerLauncher/
++-- settings.json          - launcher configuration
++-- accounts.json          - saved player accounts
++-- game/                  - Minecraft game files
+|   +-- versions/          - installed game versions
+|   +-- assets/            - game resources
+|   +-- libraries/         - Java libraries
+|   +-- mods/              - installed mods (.jar files)
+|   +-- crash-reports/     - game crash logs
++-- runtime/
+    +-- java-21/           - auto-installed Java runtime</pre>
+                    <p class="note-text">All data is stored separately from the official .minecraft folder. Uninstalling PowerLauncher removes this directory.</p>
+                </div>
+
+                <div class="doc-block" id="faq">
+                    <h3>FAQ</h3>
+                    <div class="faq-item">
+                        <strong>The launcher does not start</strong>
+                        <p>Make sure you are running Windows 10/11 x64. Try running as administrator. Check if antivirus is blocking the executable.</p>
+                    </div>
+                    <div class="faq-item">
+                        <strong>The game crashes on launch</strong>
+                        <p>Check the Console tab for error details. Try increasing Maximum RAM in settings. Disable conflicting mods one by one.</p>
+                    </div>
+                    <div class="faq-item">
+                        <strong>Mods are not working</strong>
+                        <p>Vanilla Minecraft does not load mods. You need to install a Fabric or Forge version first, then place mods in the mods folder.</p>
+                    </div>
+                    <div class="faq-item">
+                        <strong>How to update Java?</strong>
+                        <p>Go to the Java tab and click "Install/Reinstall Java 21". This will download the latest build.</p>
+                    </div>
+                    <div class="faq-item">
+                        <strong>Where are my saves?</strong>
+                        <p>Game saves are in <code>%AppData%/PowerLauncher/game/saves/</code></p>
+                    </div>
+                    <div class="faq-item">
+                        <strong>Can I use this with the official launcher?</strong>
+                        <p>Yes. PowerLauncher uses its own directory and does not touch .minecraft at all.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="footer-inner">
+            <span>2024 PowerLauncher. Open Source project.</span>
+            <span>Not affiliated with Mojang or Microsoft.</span>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

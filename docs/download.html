@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download - PowerLauncher</title>
+    <link rel="stylesheet" href="css/common.css">
+</head>
+<body>
+    <div class="topbar">
+        <div class="topbar-inner">
+            <span class="topbar-logo">PowerLauncher</span>
+            <div class="topbar-links">
+                <a href="index.html">Home</a>
+                <a href="features.html">Features</a>
+                <a href="docs.html">Documentation</a>
+                <a href="download.html" class="active">Download</a>
+                <a href="https://github.com/nqox3/PowerLauncher" target="_blank">GitHub</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-wrap top-pad">
+        <div class="section">
+            <div class="section-header">
+                <h2>Download</h2>
+                <p>Latest stable release of PowerLauncher</p>
+            </div>
+
+            <div class="download-box">
+                <div class="dl-info">
+                    <div class="dl-name">PowerLauncher-Setup-1.0.0.exe</div>
+                    <div class="dl-meta">
+                        <span>Size: ~80 MB</span>
+                        <span>Platform: Windows 10/11 x64</span>
+                        <span>Self-contained (.NET included)</span>
+                    </div>
+                </div>
+                <a href="https://github.com/nqox3/PowerLauncher/releases/latest/download/PowerLauncher-Setup-1.0.0.exe" class="btn-download">Download</a>
+            </div>
+
+            <div class="dl-note">
+                <p>The installer includes all dependencies. No additional .NET or Java installation required (Java is installed automatically on first launch).</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <h2>System Requirements</h2>
+            </div>
+            <table class="info-table">
+                <tr><td class="label">OS</td><td>Windows 10 or Windows 11</td></tr>
+                <tr><td class="label">Architecture</td><td>x64 (64-bit)</td></tr>
+                <tr><td class="label">Disk Space</td><td>~200 MB (launcher + Java runtime)</td></tr>
+                <tr><td class="label">RAM</td><td>4 GB minimum (8 GB recommended for modded)</td></tr>
+                <tr><td class="label">Internet</td><td>Required for downloading game files and mods</td></tr>
+            </table>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <h2>Build from Source</h2>
+            </div>
+            <pre class="code-block">git clone https://github.com/nqox3/PowerLauncher.git
+cd PowerLauncher
+dotnet restore
+dotnet build
+dotnet run --project MinecraftLauncher</pre>
+            <p class="note-text">Requires .NET 8 SDK installed on your machine.</p>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <h2>Previous Releases</h2>
+            </div>
+            <p>All releases are available on the <a href="https://github.com/nqox3/PowerLauncher/releases" target="_blank">GitHub Releases</a> page.</p>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="footer-inner">
+            <span>2024 PowerLauncher. Open Source project.</span>
+            <span>Not affiliated with Mojang or Microsoft.</span>
+        </div>
+    </div>
+</body>
+</html>
