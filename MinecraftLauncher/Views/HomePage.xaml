@@ -74,6 +74,12 @@
                                    Icon="{ui:SymbolIcon ArrowSync24}"
                                    Command="{Binding LoadVersionsCommand}"
                                    Appearance="Secondary"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                            <ui:Button Content="Install Fabric" Appearance="Secondary" Margin="0,0,4,0"
+                                       Click="InstallFabric_Click" x:Name="FabricBtn"/>
+                            <ui:Button Content="Install Quilt" Appearance="Secondary"
+                                       Click="InstallQuilt_Click" x:Name="QuiltBtn"/>
+                        </StackPanel>
                     </StackPanel>
                 </ui:CardControl>
 
