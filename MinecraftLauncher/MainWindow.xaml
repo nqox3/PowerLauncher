@@ -36,6 +36,9 @@
                 <ui:NavigationViewItem Content="My Mods" 
                                        Icon="{ui:SymbolIcon PuzzlePiece24}" 
                                        TargetPageType="{x:Type views:ModsPage}"/>
+                <ui:NavigationViewItem Content="Servers" 
+                                       Icon="{ui:SymbolIcon Globe24}" 
+                                       TargetPageType="{x:Type views:ServersPage}"/>
                 <ui:NavigationViewItem Content="Skins" 
                                        Icon="{ui:SymbolIcon Person24}" 
                                        TargetPageType="{x:Type views:SkinsPage}"/>
@@ -45,6 +48,9 @@
                 <ui:NavigationViewItem Content="Console" 
                                        Icon="{ui:SymbolIcon WindowConsole20}" 
                                        TargetPageType="{x:Type views:ConsolePage}"/>
+                <ui:NavigationViewItem Content="Updates" 
+                                       Icon="{ui:SymbolIcon ArrowDownload24}" 
+                                       TargetPageType="{x:Type views:UpdatePage}"/>
             </ui:NavigationView.MenuItems>
             <ui:NavigationView.FooterMenuItems>
                 <ui:NavigationViewItem Content="Settings" 
