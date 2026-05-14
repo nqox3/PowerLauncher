@@ -5,7 +5,7 @@
       Title="About">
 
     <StackPanel Margin="24" VerticalAlignment="Center" HorizontalAlignment="Center">
-        <TextBlock Text="⛏️" FontSize="64" HorizontalAlignment="Center" Margin="0,0,0,16"/>
+        <ui:SymbolIcon Symbol="Rocket24" FontSize="64" HorizontalAlignment="Center" Margin="0,0,0,16"/>
         <TextBlock Text="Minecraft Launcher" FontSize="28" FontWeight="Bold" 
                    HorizontalAlignment="Center"
                    Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>

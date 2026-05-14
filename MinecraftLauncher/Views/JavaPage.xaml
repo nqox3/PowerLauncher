@@ -11,7 +11,7 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Margin="0,0,0,16">
-            <TextBlock Text="☕ Java Runtime" 
+            <TextBlock Text="Java Runtime" 
                        FontSize="28" FontWeight="Bold"
                        Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
             <TextBlock Text="Manage Java installation for Minecraft" 

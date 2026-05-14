@@ -17,7 +17,7 @@
         <ui:TitleBar Grid.Row="0" Title="PowerLauncher Setup" ShowMaximize="False"/>
 
         <StackPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="40">
-            <TextBlock Text="⛏️" FontSize="48" HorizontalAlignment="Center" Margin="0,0,0,16"/>
+            <ui:SymbolIcon Symbol="Rocket24" FontSize="48" HorizontalAlignment="Center" Margin="0,0,0,16"/>
             <TextBlock x:Name="TitleText" Text="Setting up PowerLauncher..." 
                        FontSize="22" FontWeight="Bold" HorizontalAlignment="Center"
                        Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>

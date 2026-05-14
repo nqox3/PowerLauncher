@@ -13,7 +13,7 @@
 
         <!-- Header -->
         <StackPanel Grid.Row="0" Margin="0,0,0,16">
-            <TextBlock Text="🧩 Mod Manager" 
+            <TextBlock Text="Mod Manager" 
                        FontSize="28" FontWeight="Bold"
                        Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
             <TextBlock Text="Manage your installed mods" 

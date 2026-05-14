@@ -2,7 +2,6 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-      xmlns:vm="clr-namespace:MinecraftLauncher.ViewModels"
       Title="Home">
 
     <Grid Margin="24">
@@ -14,7 +13,7 @@
 
         <!-- Header -->
         <StackPanel Grid.Row="0" Margin="0,0,0,24">
-            <TextBlock Text="⛏️ PowerLauncher" 
+            <TextBlock Text="PowerLauncher" 
                        FontSize="32" FontWeight="Bold" 
                        Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
             <TextBlock Text="Select a version and launch your game" 
@@ -34,7 +33,7 @@
                 <ui:CardControl Margin="0,0,0,12">
                     <ui:CardControl.Header>
                         <StackPanel>
-                            <TextBlock Text="🎮 Game Version" FontWeight="SemiBold" FontSize="16"/>
+                            <TextBlock Text="Game Version" FontWeight="SemiBold" FontSize="16"/>
                             <TextBlock Text="Choose which version to play" Opacity="0.6" FontSize="12"/>
                         </StackPanel>
                     </ui:CardControl.Header>
@@ -52,7 +51,7 @@
                 <ui:CardControl>
                     <ui:CardControl.Header>
                         <StackPanel>
-                            <TextBlock Text="👤 Account" FontWeight="SemiBold" FontSize="16"/>
+                            <TextBlock Text="Account" FontWeight="SemiBold" FontSize="16"/>
                             <TextBlock Text="Manage player accounts" Opacity="0.6" FontSize="12"/>
                         </StackPanel>
                     </ui:CardControl.Header>
@@ -70,10 +69,10 @@
                             <ui:TextBox PlaceholderText="Username" 
                                         Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"
                                         Margin="0,0,8,0"/>
-                            <ui:Button Grid.Column="1" Content="➕" ToolTip="Add Account"
+                            <ui:Button Grid.Column="1" Content="+" ToolTip="Add Account"
                                        Command="{Binding AddOfflineAccountCommand}"
                                        Appearance="Primary" Margin="0,0,4,0"/>
-                            <ui:Button Grid.Column="2" Content="➖" ToolTip="Remove Account"
+                            <ui:Button Grid.Column="2" Content="-" ToolTip="Remove Account"
                                        Command="{Binding RemoveAccountCommand}"
                                        Appearance="Danger"/>
                         </Grid>
@@ -85,7 +84,7 @@
             <StackPanel Grid.Column="1" Margin="12,0,0,0">
                 <ui:CardControl Margin="0,0,0,12">
                     <ui:CardControl.Header>
-                        <TextBlock Text="📊 Quick Info" FontWeight="SemiBold" FontSize="16"/>
+                        <TextBlock Text="Quick Info" FontWeight="SemiBold" FontSize="16"/>
                     </ui:CardControl.Header>
                     <StackPanel>
                         <TextBlock Margin="0,4">
@@ -108,10 +107,9 @@
                     </StackPanel>
                 </ui:CardControl>
 
-                <!-- Player Head Preview -->
                 <ui:CardControl>
                     <ui:CardControl.Header>
-                        <TextBlock Text="🧑 Player" FontWeight="SemiBold" FontSize="16"/>
+                        <TextBlock Text="Player" FontWeight="SemiBold" FontSize="16"/>
                     </ui:CardControl.Header>
                     <StackPanel HorizontalAlignment="Center">
                         <Image x:Name="PlayerHeadImage" Width="64" Height="64"
@@ -127,7 +125,8 @@
 
         <!-- Launch Button -->
         <StackPanel Grid.Row="2" Margin="0,24,0,0">
-            <ui:Button Content="🚀 LAUNCH MINECRAFT" 
+            <ui:Button Content="LAUNCH MINECRAFT" 
+                       Icon="{ui:SymbolIcon Play24}"
                        Command="{Binding LaunchGameCommand}"
                        IsEnabled="{Binding IsLaunching, Converter={StaticResource InverseBoolConverter}}"
                        HorizontalAlignment="Stretch"
