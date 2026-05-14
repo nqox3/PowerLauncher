@@ -45,18 +45,32 @@ public class GameLaunchService
         var result = new List<GameVersion>();
         foreach (var v in versions)
         {
-            if (!includeSnapshots && v.Type != "release")
+            var name = v.Name;
+            var loader = DetectLoader(name);
+
+            // Skip snapshots unless requested (but always show modded)
+            if (loader == "vanilla" && !includeSnapshots && v.Type != "release")
                 continue;
 
             result.Add(new GameVersion
             {
-                Id = v.Name,
+                Id = name,
                 Type = v.Type ?? "release",
-                IsInstalled = false
+                IsInstalled = false,
+                LoaderType = loader
             });
         }
 
         return result;
+    }
+
+    private string DetectLoader(string versionName)
+    {
+        var lower = versionName.ToLower();
+        if (lower.Contains("fabric")) return "fabric";
+        if (lower.Contains("forge") || lower.Contains("neoforge")) return lower.Contains("neoforge") ? "neoforge" : "forge";
+        if (lower.Contains("quilt")) return "quilt";
+        return "vanilla";
     }
 
     public async Task LaunchGameAsync(LauncherSettings settings, LauncherAccount account)

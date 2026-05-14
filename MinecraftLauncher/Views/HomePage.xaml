@@ -39,8 +39,37 @@
                     </ui:CardControl.Header>
                     <StackPanel>
                         <ComboBox ItemsSource="{Binding Versions}" 
-                                  SelectedItem="{Binding SelectedVersion}"
-                                  Margin="0,0,0,8" MinWidth="200"/>
+                                  SelectedItem="{Binding SelectedVersionItem}"
+                                  Margin="0,0,0,8" MinWidth="200">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Width="16" Height="16" Margin="0,0,6,0" RenderOptions.BitmapScalingMode="HighQuality">
+                                            <Image.Style>
+                                                <Style TargetType="Image">
+                                                    <Setter Property="Source" Value="/Icons/mojang.png"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding LoaderType}" Value="fabric">
+                                                            <Setter Property="Source" Value="/Icons/fabric.png"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding LoaderType}" Value="forge">
+                                                            <Setter Property="Source" Value="/Icons/forge.png"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding LoaderType}" Value="quilt">
+                                                            <Setter Property="Source" Value="/Icons/quilt.png"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding LoaderType}" Value="neoforge">
+                                                            <Setter Property="Source" Value="/Icons/neoforge.png"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Image.Style>
+                                        </Image>
+                                        <TextBlock Text="{Binding DisplayName}" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
                         <ui:Button Content="Refresh Versions" 
                                    Icon="{ui:SymbolIcon ArrowSync24}"
                                    Command="{Binding LoadVersionsCommand}"

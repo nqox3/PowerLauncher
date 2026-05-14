@@ -7,3 +7,8 @@ obj/
 *.dll
 *.pdb
 installer/output/
+publish_output/
+uninstall_output/
+setup_output/
+PowerLauncher.zip
+*.zip

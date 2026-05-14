@@ -25,7 +25,8 @@ public partial class MainViewModel : ObservableObject
     [ObservableProperty] private string _selectedVersion = string.Empty;
     [ObservableProperty] private string _username = "Player";
     [ObservableProperty] private LauncherSettings _settings;
-    [ObservableProperty] private ObservableCollection<string> _versions = new();
+    [ObservableProperty] private ObservableCollection<GameVersion> _versions = new();
+    [ObservableProperty] private GameVersion? _selectedVersionItem;
     [ObservableProperty] private ObservableCollection<ModInfo> _mods = new();
     [ObservableProperty] private ObservableCollection<LauncherAccount> _accounts = new();
     [ObservableProperty] private LauncherAccount? _selectedAccount;
@@ -82,9 +83,12 @@ public partial class MainViewModel : ObservableObject
         {
             StatusText = "Loading versions...";
             var gameVersions = await _gameLaunchService.GetVersionsAsync(Settings.ShowSnapshots);
-            Versions = new ObservableCollection<string>(gameVersions.Select(v => v.Id));
+            Versions = new ObservableCollection<GameVersion>(gameVersions);
             if (Versions.Any())
-                SelectedVersion = Versions.First();
+            {
+                SelectedVersionItem = Versions.First();
+                SelectedVersion = SelectedVersionItem.Id;
+            }
             StatusText = $"Loaded {Versions.Count} versions";
         }
         catch (Exception ex)
