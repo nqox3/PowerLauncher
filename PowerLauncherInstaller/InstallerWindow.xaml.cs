@@ -2,32 +2,116 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Net.Http;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Windows;
+using System.Windows.Controls;
 using Microsoft.Win32;
-using Wpf.Ui.Controls;
 
 namespace PowerLauncherInstaller;
 
-public partial class InstallerWindow : FluentWindow
+public partial class InstallerWindow : Wpf.Ui.Controls.FluentWindow
 {
+    private int _currentStep = 1;
     private string _installPath;
     private const string DOWNLOAD_URL = "https://github.com/nqox3/PowerLauncher/releases/latest/download/PowerLauncher.zip";
     private const string APP_NAME = "PowerLauncher";
     private const string EXE_NAME = "MinecraftLauncher.exe";
 
-    public string InstallPath => _installPath;
+    private readonly Label[] _stepLabels;
+    private readonly UIElement[] _pages;
+    private static readonly string[] StepNames = ["Welcome", "License", "Options", "Install", "Done"];
 
     public InstallerWindow()
     {
         _installPath = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
             "Programs", APP_NAME);
-        DataContext = this;
         InitializeComponent();
         InstallPathBox.Text = _installPath;
+
+        // Build step labels in code to avoid WPF UI TextBlock conflict
+        _stepLabels = new Label[5];
+        for (int i = 0; i < StepNames.Length; i++)
+        {
+            if (i > 0)
+                StepsPanel.Children.Add(new Label { Content = ">", Padding = new Thickness(0), Margin = new Thickness(0, 0, 16, 0), Opacity = 0.3 });
+            var lbl = new Label { Content = StepNames[i], Padding = new Thickness(0), Margin = new Thickness(0, 0, 16, 0), Opacity = 0.4 };
+            _stepLabels[i] = lbl;
+            StepsPanel.Children.Add(lbl);
+        }
+        _stepLabels[0].FontWeight = FontWeights.Bold;
+        _stepLabels[0].Opacity = 1.0;
+
+        _pages = [Page1, Page2, Page3, Page4, Page5];
+        UpdateUI();
     }
+
+    private void ShowStep(int step)
+    {
+        _currentStep = step;
+        for (int i = 0; i < _pages.Length; i++)
+            _pages[i].Visibility = i == step - 1 ? Visibility.Visible : Visibility.Collapsed;
+
+        for (int i = 0; i < _stepLabels.Length; i++)
+        {
+            _stepLabels[i].FontWeight = i == step - 1 ? FontWeights.Bold : FontWeights.Normal;
+            _stepLabels[i].Opacity = i == step - 1 ? 1.0 : (i < step - 1 ? 0.7 : 0.4);
+        }
+        UpdateUI();
+    }
+
+    private void UpdateUI()
+    {
+        BackBtn.Visibility = _currentStep > 1 && _currentStep < 4 ? Visibility.Visible : Visibility.Collapsed;
+        CancelBtn.Visibility = _currentStep < 4 ? Visibility.Visible : Visibility.Collapsed;
+
+        if (_currentStep == 5)
+        {
+            NextBtn.Content = "Finish";
+            BackBtn.Visibility = Visibility.Collapsed;
+            CancelBtn.Visibility = Visibility.Collapsed;
+            NextBtn.Visibility = Visibility.Visible;
+        }
+        else if (_currentStep == 3)
+        {
+            NextBtn.Content = "Install";
+            NextBtn.Visibility = Visibility.Visible;
+        }
+        else if (_currentStep == 4)
+        {
+            NextBtn.Visibility = Visibility.Collapsed;
+            BackBtn.Visibility = Visibility.Collapsed;
+        }
+        else
+        {
+            NextBtn.Content = "Next";
+            NextBtn.Visibility = Visibility.Visible;
+        }
+    }
+
+    private void Next_Click(object sender, RoutedEventArgs e)
+    {
+        if (_currentStep == 2 && AcceptLicense.IsChecked != true)
+        {
+            System.Windows.MessageBox.Show("Please accept the license agreement.",
+                "License", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
+            return;
+        }
+        if (_currentStep == 3) { ShowStep(4); StartInstall(); return; }
+        if (_currentStep == 5)
+        {
+            if (LaunchAfter.IsChecked == true)
+            {
+                var exe = Path.Combine(_installPath, EXE_NAME);
+                if (File.Exists(exe))
+                    Process.Start(new ProcessStartInfo { FileName = exe, UseShellExecute = true });
+            }
+            Close(); return;
+        }
+        if (_currentStep < 5) ShowStep(_currentStep + 1);
+    }
+
+    private void Back_Click(object sender, RoutedEventArgs e) { if (_currentStep > 1) ShowStep(_currentStep - 1); }
+    private void Cancel_Click(object sender, RoutedEventArgs e) { Close(); }
 
     private void Browse_Click(object sender, RoutedEventArgs e)
     {
@@ -39,138 +123,90 @@ public partial class InstallerWindow : FluentWindow
         }
     }
 
-    private async void Install_Click(object sender, RoutedEventArgs e)
+    private async void StartInstall()
     {
-        WelcomePage.Visibility = Visibility.Collapsed;
-        ProgressPage.Visibility = Visibility.Visible;
-
         try
         {
             Directory.CreateDirectory(_installPath);
-            ProgressStatus.Text = "Downloading PowerLauncher...";
-            await Task.Delay(200);
+            ProgressStatus.Content = "Downloading PowerLauncher...";
 
             var zipPath = Path.Combine(Path.GetTempPath(), "PowerLauncher_install.zip");
-
             using var client = new HttpClient();
             client.DefaultRequestHeaders.Add("User-Agent", "PowerLauncher-Installer/1.0");
 
             using var response = await client.GetAsync(DOWNLOAD_URL, HttpCompletionOption.ResponseHeadersRead);
             response.EnsureSuccessStatusCode();
-
             var totalBytes = response.Content.Headers.ContentLength ?? -1;
             var downloaded = 0L;
 
             using (var stream = await response.Content.ReadAsStreamAsync())
-            using (var fileStream = new FileStream(zipPath, FileMode.Create))
+            using (var fs = new FileStream(zipPath, FileMode.Create))
             {
                 var buffer = new byte[81920];
-                int bytesRead;
-                while ((bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length)) > 0)
+                int read;
+                while ((read = await stream.ReadAsync(buffer)) > 0)
                 {
-                    await fileStream.WriteAsync(buffer, 0, bytesRead);
-                    downloaded += bytesRead;
+                    await fs.WriteAsync(buffer.AsMemory(0, read));
+                    downloaded += read;
                     if (totalBytes > 0)
                     {
                         var pct = (double)downloaded / totalBytes * 70;
                         ProgressBar.Value = pct;
-                        ProgressPercent.Text = $"{pct:F0}%";
+                        ProgressPercent.Content = $"{pct:F0}%";
                     }
                 }
             }
 
-            ProgressStatus.Text = "Extracting files...";
+            ProgressStatus.Content = "Extracting...";
             ProgressBar.Value = 75;
-            ProgressPercent.Text = "75%";
-
             ZipFile.ExtractToDirectory(zipPath, _installPath, true);
             File.Delete(zipPath);
 
+            ProgressStatus.Content = "Creating shortcuts...";
             ProgressBar.Value = 85;
-            ProgressPercent.Text = "85%";
-
-            ProgressStatus.Text = "Creating shortcuts...";
             var exePath = Path.Combine(_installPath, EXE_NAME);
 
             if (DesktopShortcut.IsChecked == true)
-            {
-                var desktopLink = Path.Combine(
-                    Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory),
-                    APP_NAME + ".lnk");
-                CreateShortcutViaPs(desktopLink, exePath);
-            }
-
+                CreateShortcut(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), APP_NAME + ".lnk"), exePath);
             if (StartMenuShortcut.IsChecked == true)
+                CreateShortcut(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.StartMenu), "Programs", APP_NAME + ".lnk"), exePath);
+            if (LaunchOnStartup.IsChecked == true)
             {
-                var startDir = Path.Combine(
-                    Environment.GetFolderPath(Environment.SpecialFolder.StartMenu),
-                    "Programs");
-                var startLink = Path.Combine(startDir, APP_NAME + ".lnk");
-                CreateShortcutViaPs(startLink, exePath);
+                var k = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", true);
+                k?.SetValue(APP_NAME, $"\"{exePath}\""); k?.Close();
             }
 
-            ProgressStatus.Text = "Registering application...";
-            RegisterUninstall(exePath);
+            ProgressStatus.Content = "Registering...";
+            ProgressBar.Value = 95;
+            var uninstallExe = Path.Combine(_installPath, "Uninstall.exe");
+            var key = Registry.CurrentUser.CreateSubKey(@"Software\Microsoft\Windows\CurrentVersion\Uninstall\" + APP_NAME);
+            key?.SetValue("DisplayName", APP_NAME);
+            key?.SetValue("DisplayVersion", "1.0.0");
+            key?.SetValue("InstallLocation", _installPath);
+            key?.SetValue("UninstallString", $"\"{uninstallExe}\"");
+            key?.SetValue("DisplayIcon", exePath);
+            key?.SetValue("NoModify", 1); key?.SetValue("NoRepair", 1);
+            key?.Close();
 
             ProgressBar.Value = 100;
-            ProgressPercent.Text = "100%";
+            ProgressPercent.Content = "100%";
             await Task.Delay(500);
-
-            ProgressPage.Visibility = Visibility.Collapsed;
-            DonePage.Visibility = Visibility.Visible;
+            ShowStep(5);
         }
         catch (Exception ex)
         {
-            ProgressTitle.Text = "Installation Failed";
-            ProgressStatus.Text = ex.Message;
+            ProgressTitle.Content = "Failed";
+            ProgressStatus.Content = ex.Message;
             ProgressBar.Value = 0;
-            ProgressPercent.Text = "";
         }
     }
 
-    private void Finish_Click(object sender, RoutedEventArgs e)
-    {
-        if (LaunchAfter.IsChecked == true)
-        {
-            var exePath = Path.Combine(_installPath, EXE_NAME);
-            if (File.Exists(exePath))
-                Process.Start(new ProcessStartInfo { FileName = exePath, UseShellExecute = true });
-        }
-        Close();
-    }
-
-    private void CreateShortcutViaPs(string linkPath, string targetPath)
+    private void CreateShortcut(string linkPath, string targetPath)
     {
         try
         {
-            var script = $@"$ws = New-Object -ComObject WScript.Shell; $s = $ws.CreateShortcut('{linkPath}'); $s.TargetPath = '{targetPath}'; $s.WorkingDirectory = '{Path.GetDirectoryName(targetPath)}'; $s.Save()";
-            Process.Start(new ProcessStartInfo
-            {
-                FileName = "powershell",
-                Arguments = $"-NoProfile -Command \"{script}\"",
-                CreateNoWindow = true,
-                UseShellExecute = false
-            })?.WaitForExit(5000);
-        }
-        catch { }
-    }
-
-    private void RegisterUninstall(string exePath)
-    {
-        try
-        {
-            var key = Registry.CurrentUser.CreateSubKey(
-                @"Software\Microsoft\Windows\CurrentVersion\Uninstall\" + APP_NAME);
-            if (key == null) return;
-            key.SetValue("DisplayName", APP_NAME);
-            key.SetValue("DisplayVersion", "1.0.0");
-            key.SetValue("Publisher", "PowerLauncher Team");
-            key.SetValue("InstallLocation", _installPath);
-            key.SetValue("UninstallString", $"\"{exePath}\" --uninstall");
-            key.SetValue("DisplayIcon", exePath);
-            key.SetValue("NoModify", 1);
-            key.SetValue("NoRepair", 1);
-            key.Close();
+            var ps = $"$ws = New-Object -ComObject WScript.Shell; $s = $ws.CreateShortcut('{linkPath.Replace("'", "''")}'); $s.TargetPath = '{targetPath.Replace("'", "''")}'; $s.WorkingDirectory = '{Path.GetDirectoryName(targetPath)?.Replace("'", "''")}'; $s.Save()";
+            Process.Start(new ProcessStartInfo { FileName = "powershell", Arguments = $"-NoProfile -Command \"{ps}\"", CreateNoWindow = true, UseShellExecute = false })?.WaitForExit(5000);
         }
         catch { }
     }

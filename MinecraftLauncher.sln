@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00A0C9CF6860}") = "MinecraftLauncher", "Minecr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerLauncherInstaller", "PowerLauncherInstaller\PowerLauncherInstaller.csproj", "{3C980B1A-9300-48EC-BA9D-99F69E21D95A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerLauncherUninstaller", "PowerLauncherUninstaller\PowerLauncherUninstaller.csproj", "{F10A0A20-CC89-43EF-A8E4-223E85956B75}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,18 @@ Global
 		{3C980B1A-9300-48EC-BA9D-99F69E21D95A}.Release|x64.Build.0 = Release|Any CPU
 		{3C980B1A-9300-48EC-BA9D-99F69E21D95A}.Release|x86.ActiveCfg = Release|Any CPU
 		{3C980B1A-9300-48EC-BA9D-99F69E21D95A}.Release|x86.Build.0 = Release|Any CPU
+		{F10A0A20-CC89-43EF-A8E4-223E85956B75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F10A0A20-CC89-43EF-A8E4-223E85956B75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F10A0A20-CC89-43EF-A8E4-223E85956B75}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F10A0A20-CC89-43EF-A8E4-223E85956B75}.Debug|x64.Build.0 = Debug|Any CPU
+		{F10A0A20-CC89-43EF-A8E4-223E85956B75}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F10A0A20-CC89-43EF-A8E4-223E85956B75}.Debug|x86.Build.0 = Debug|Any CPU
+		{F10A0A20-CC89-43EF-A8E4-223E85956B75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F10A0A20-CC89-43EF-A8E4-223E85956B75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F10A0A20-CC89-43EF-A8E4-223E85956B75}.Release|x64.ActiveCfg = Release|Any CPU
+		{F10A0A20-CC89-43EF-A8E4-223E85956B75}.Release|x64.Build.0 = Release|Any CPU
+		{F10A0A20-CC89-43EF-A8E4-223E85956B75}.Release|x86.ActiveCfg = Release|Any CPU
+		{F10A0A20-CC89-43EF-A8E4-223E85956B75}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
