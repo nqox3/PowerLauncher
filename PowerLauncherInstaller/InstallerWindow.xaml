@@ -34,8 +34,7 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <ui:TextBox x:Name="InstallPathBox" IsReadOnly="True"
-                                Text="{Binding InstallPath}"/>
+                    <ui:TextBox x:Name="InstallPathBox" IsReadOnly="True"/>
                     <ui:Button Grid.Column="1" Content="Browse" Click="Browse_Click" Margin="8,0,0,0"/>
                 </Grid>
 
