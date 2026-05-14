@@ -27,6 +27,12 @@ public partial class MainViewModel : ObservableObject
     [ObservableProperty] private LauncherSettings _settings;
     [ObservableProperty] private ObservableCollection<GameVersion> _versions = new();
     [ObservableProperty] private GameVersion? _selectedVersionItem;
+
+    partial void OnSelectedVersionItemChanged(GameVersion? value)
+    {
+        if (value != null)
+            SelectedVersion = value.Id;
+    }
     [ObservableProperty] private ObservableCollection<ModInfo> _mods = new();
     [ObservableProperty] private ObservableCollection<LauncherAccount> _accounts = new();
     [ObservableProperty] private LauncherAccount? _selectedAccount;
